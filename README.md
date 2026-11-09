@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/mecanum-rover.svg" alt="Mecanum Rover" width="900">
+  <p><img src="assets/mecanum-rover.svg" alt="Mecanum Rover" width="900"></p>
   <p><a href="https://mecanum-rover-website.vercel.app">Website</a></p>
 </div>
 
