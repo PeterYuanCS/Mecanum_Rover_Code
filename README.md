@@ -1,33 +1,26 @@
-# Mecanum Rover Code
+<div align="center">
+  <img src="assets/mecanum-rover.svg" alt="Mecanum Rover" width="900">
+  <p><a href="https://mecanum-rover-website.vercel.app">Website</a></p>
+</div>
 
-## Upload and Run
+## Prerequisites
 
-Install Arduino IDE 2 and add the following address under **Preferences → Additional Boards Manager URLs**, then install **esp32 by Espressif Systems, version 3.3.11** through Boards Manager. Select **ESP32S3 Dev Module** (the rover's microcontroller board); no additional libraries are required.
+The assembled rover uses an ESP32-S3 with 16 MB flash and OPI PSRAM (external memory), two L298N motor drivers and a front-facing HC-SR04 (ultrasonic distance sensor). Install Arduino IDE 2 and **esp32 by Espressif Systems, version 3.3.11** through Boards Manager; no additional libraries are required.
+
+Add this address under **Preferences → Additional Boards Manager URLs**:
 
 ```text
 https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
 ```
 
-Open one sketch (Arduino program) from `sketches/`:
+## Installation
 
-* `RC_Car_direct_alternating_test`: pulsed straight-line movement.
-* `RC_Car_obstacle_stop`: forward movement with a 30 cm stopping threshold.
-* `RC_Car_intelligent_avoidance`: reactive obstacle avoidance.
+1. Open [`RC_Car_intelligent_avoidance.ino`](sketches/RC_Car_intelligent_avoidance/RC_Car_intelligent_avoidance.ino) in Arduino IDE.
 
-Connect the ESP32-S3 by USB, select its port and click **Upload**, keeping motor power off during upload. Check the pin assignments in the selected sketch, lift the wheels for the first run, then enable the rover's battery supply; the program starts automatically, whilst switching off motor power stops movement. The autonomous sketch treats a missing forward echo as open space, so its runs require supervision.
+2. Select **ESP32S3 Dev Module**, **Flash Size: 16MB**, **PSRAM: OPI PSRAM**, **USB Mode: Hardware CDC and JTAG**, and **USB CDC On Boot: Enabled**.
 
-The `diagnostics/` folder contains the earlier wiring and power checks. Each diagnostic retains its own pin assignments (wiring); sketches that print measurements use **115200 baud** in Serial Monitor.
+3. Connect the board by USB, select its port and click **Upload**, with motor power switched off.
 
-## Command-Line Upload
+4. Check the wiring against the sketch's pin assignments, lift the wheels for the first run, then enable the battery supply. The program starts automatically; switch off motor power to stop movement.
 
-With Arduino CLI 1.5.1 installed, run these commands from the repository root, replacing `PORT` with the port listed by `board list`:
-
-```sh
-arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-arduino-cli core install esp32:esp32@3.3.11 --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-arduino-cli board list
-arduino-cli compile --fqbn esp32:esp32:esp32s3 sketches/RC_Car_intelligent_avoidance
-arduino-cli upload --fqbn esp32:esp32:esp32s3 --port PORT sketches/RC_Car_intelligent_avoidance
-```
-
-Run `bash scripts/check.sh` to compile all sketches without uploading.
+The controller treats a missing forward echo as open space, so autonomous runs require supervision.

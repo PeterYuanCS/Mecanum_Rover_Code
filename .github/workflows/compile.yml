@@ -1,4 +1,4 @@
-name: Compile Sketches
+name: Compile Rover
 on:
   push:
   pull_request:
@@ -17,5 +17,5 @@ jobs:
         run: |
           arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
           arduino-cli core install esp32:esp32@3.3.11 --additional-urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-      - name: Compile All Sketches
-        run: bash scripts/check.sh
+      - name: Compile Rover Firmware
+        run: arduino-cli compile --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi,USBMode=hwcdc,CDCOnBoot=cdc --warnings all sketches/RC_Car_intelligent_avoidance
